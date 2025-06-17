@@ -1,0 +1,51 @@
+<!-- src/app/modules/permission/components/permission-list/permission-list.component.html -->
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <h2>Gestion des permissions</h2>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button pButton pRipple label="Nouvelle permission" icon="pi pi-plus" class="p-button-success mr-2" (click)="createPermission()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    [value]="permissions" 
+    [paginator]="true" 
+    [rows]="10" 
+    [rowsPerPageOptions]="[5, 10, 25]"
+    [loading]="loading" 
+    styleClass="p-datatable-gridlines p-datatable-responsive"
+    [responsive]="true">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="name">Nom <p-sortIcon field="name"></p-sortIcon></th>
+        <th style="min-width: 8rem">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-permission>
+      <tr>
+        <td><span class="p-column-title">ID</span>{{ permission.id }}</td>
+        <td><span class="p-column-title">Nom</span>{{ permission.name }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" (click)="editPermission(permission)" pTooltip="Éditer"></button>
+            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm" (click)="confirmDelete(permission)" pTooltip="Supprimer"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3" class="text-center">Aucune permission trouvée.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

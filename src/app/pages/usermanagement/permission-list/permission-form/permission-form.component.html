@@ -1,0 +1,44 @@
+<div class="card">
+    <p-toast></p-toast>
+    
+    <div class="card-header">
+      <h2>{{ isEditMode ? 'Modifier une permission' : 'Créer une permission' }}</h2>
+    </div>
+  
+    <div *ngIf="loading" class="flex justify-content-center">
+      <p-progressSpinner></p-progressSpinner>
+    </div>
+  
+    <div *ngIf="!loading" class="p-fluid">
+      <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+        <div class="field mb-4">
+          <label for="name" class="font-bold">Nom de la permission</label>
+          <input id="name" type="text" pInputText formControlName="name" class="w-full" />
+          <small *ngIf="permissionForm.get('name')?.invalid && permissionForm.get('name')?.touched" class="p-error">
+            Le nom de la permission est requis
+          </small>
+        </div>
+  
+        <div class="flex justify-content-end mt-4 gap-2">
+          <button 
+            pButton 
+            pRipple 
+            type="button" 
+            label="Annuler" 
+            class="p-button-secondary" 
+            (click)="cancel()" 
+            [disabled]="submitting">
+          </button>
+          <button 
+            pButton 
+            pRipple 
+            type="submit" 
+            label="Enregistrer" 
+            class="p-button-primary" 
+            [disabled]="submitting || loading">
+          </button>
+        </div>
+      </form>
+    </div>
+    
+  </div>

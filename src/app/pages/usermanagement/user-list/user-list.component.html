@@ -1,0 +1,59 @@
+<div class="card">
+  <p-toast></p-toast>
+  <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+
+  <p-toolbar styleClass="mb-4 gap-2">
+    <ng-template pTemplate="left">
+      <h2>Gestion des utilisateurs</h2>
+    </ng-template>
+    <ng-template pTemplate="right">
+      <button *appHasRole="'Admin'" pButton pRipple label="Nouvel utilisateur" icon="pi pi-plus" class="p-button-success mr-2" (click)="createUser()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table 
+    [value]="users" 
+    [paginator]="true" 
+    [rows]="10" 
+    [rowsPerPageOptions]="[5, 10, 25,50]"
+    [loading]="loading" 
+    styleClass="p-datatable-gridlines p-datatable-responsive"
+    [responsive]="true">
+    
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+        <th pSortableColumn="name">Nom <p-sortIcon field="name"></p-sortIcon></th>
+        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+        <th>Rôles</th>
+        <th style="min-width: 8rem">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td><span class="p-column-title">ID</span>{{ user.id }}</td>
+        <td><span class="p-column-title">Nom</span>{{ user.name }}</td>
+        <td><span class="p-column-title">Email</span>{{ user.email }}</td>
+        <td>
+          <div class="flex flex-wrap gap-1">
+            <span *ngFor="let role of user.roles" class="p-tag p-tag-rounded">{{ role.name }}</span>
+          </div>
+        </td>
+        <td>
+          <div class="flex gap-2">
+            <button *appHasRole="'Admin'" pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info p-button-sm" (click)="viewUser(user)" pTooltip="Détails"></button>
+            <button *appHasRole="'Admin'" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-button-sm" (click)="editUser(user)" pTooltip="Éditer"></button>
+            <button *appHasRole="'Admin'" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger p-button-sm" (click)="confirmDelete(user)" pTooltip="Supprimer"></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">Aucun utilisateur trouvé.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
